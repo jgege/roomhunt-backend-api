@@ -158,11 +158,13 @@ class ApiController extends Controller
 
         $personList = [];
         foreach ($flat->persons as $person) {
-            $personList[] = [
-                'name' => $person->name,
-                'picture' => $person->picture,
-                'url' => $person->url,
-            ];
+            if ($person->delete_at == null) {
+                $personList[] = [
+                    'name' => $person->name,
+                    'picture' => $person->picture,
+                    'url' => $person->url,
+                ];
+            }
         }
 
         return [
@@ -190,7 +192,6 @@ class ApiController extends Controller
 
         $piif = PersonInterestedInFlat::find()
             ->where(['flat_id' => $flat_id, 'person_id' => $person_id])
-            ->andWhere(['deleted_at' => null])
             ->one();
 
         // Delete connection
