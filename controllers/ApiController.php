@@ -175,13 +175,14 @@ class ApiController extends Controller
         ];
     }
 
-    public function actionAddInterest($delete = false)
+    public function actionAddInterest()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $request = Yii::$app->request;
 
         $flat_id = $request->post('flat_id');
         $person_id = $request->post('person_id');
+        $delete = $request->post('delete');
 
         if ($flat_id === null || $person_id === null) {
             throw new \yii\web\NotFoundHttpException;
