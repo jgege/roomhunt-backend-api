@@ -151,14 +151,18 @@ class ApiController extends Controller
 
         if ($person_id) {
             $isInterested = PersonInterestedInFlat::find()
-                ->where(['person_id' => $person_id])
+                ->where(['person_id' => $person_id, 'flat_id' => $flat_id])
                 ->andWhere(['deleted_at' => null])
                 ->exists();
         }
 
         $personList = [];
         foreach ($flat->persons as $person) {
-            if ($person->personInterestedInFlats->deleted_at == null) {
+            $isCurrentUserInterested = PersonInterestedInFlat::find()
+                ->where(['person_id' => $person->id, 'flat_id' => $flat_id])
+                ->andWhere(['deleted_at' => null])
+                ->exists();
+            if ($isCurrentUserInterested) {
                 $personList[] = [
                     'name' => $person->name,
                     'picture' => $person->picture,
