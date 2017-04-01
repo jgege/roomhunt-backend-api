@@ -162,7 +162,7 @@ class ApiController extends Controller
                 ->where(['person_id' => $person->id, 'flat_id' => $flat_id])
                 ->andWhere(['deleted_at' => null])
                 ->exists();
-            if ($isCurrentUserInterested) {
+            if ($isCurrentUserInterested && ($person_id == null || $person_id != $person->id)) {
                 $personList[] = [
                     'name' => $person->name,
                     'picture' => $person->picture,
