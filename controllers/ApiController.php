@@ -23,6 +23,8 @@ class ApiController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'add-flat' => ['post'],
+                    'add-person' => ['post'],
+                    'add-interest' => ['post'],
                 ],
             ],
         ];
@@ -158,7 +160,7 @@ class ApiController extends Controller
 
         return [
             [
-                'personList' => $this->getDummyPersonInterestedInData($flat_id),
+                'personList' => $personList,
                 'price' => $flat['price'],
                 'bedroomNo' => $flat['bedroomNo'],
             ],
