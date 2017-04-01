@@ -119,18 +119,19 @@ class ApiController extends Controller
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $flatData = $this->getDummyFlatData();
+        $flat = Flat::find()->where(['id' => $flat_id])->one();
 
-        $found = false;
-        foreach ($flatData as $flat) {
-            if ($flat['id'] == $flat_id) {
-                $found = true;
-                break;
-            }
+        if ($flat == null) {
+            throw new \yii\web\NotFoundHttpException;
         }
 
-        if (!$found) {
-            throw new \yii\web\NotFoundHttpException;
+        $personList = [];
+        foreach ($flat->persons as $person) {
+            $personList[] = [
+                'name' => $person->name,
+                'picture' => $person->picture,
+                'url' => $person->url,
+            ];
         }
 
         return [

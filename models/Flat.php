@@ -16,7 +16,7 @@ use Yii;
  * @property int $updated_at
  * @property int $created_at
  *
- * @property PersonInterestedInFlat[] $personInterestedInFlats 
+ * @property PersonInterestedInFlat[] $personInterestedInFlats
  */
 class Flat extends \yii\db\ActiveRecord
 {
@@ -61,6 +61,12 @@ class Flat extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'created_at' => 'Created At',
         ];
+    }
+
+    public function getPersons()
+    {
+        return $this->hasMany(Person::className(), ['id' => 'person_id'])
+        ->via('personInterestedInFlats');
     }
 
     /**
