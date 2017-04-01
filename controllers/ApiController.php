@@ -40,15 +40,6 @@ class ApiController extends Controller
         ];
     }
 
-    public function actionIndex()
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-
-        return [
-            'Hello' => 'MLH Prime!',
-        ];
-    }
-
     public function actionAddFlat()
     {
         Yii::$app->request->enableCsrfValidation = false;
@@ -102,16 +93,47 @@ class ApiController extends Controller
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
+        $request = Yii::$app->request;
+
+        $query = Flat::find()->select([
+            'id',
+            'longitude',
+            'latitude',
+            'bedroomNo',
+            'price'
+        ]);
+
+        /**
+         * Price
+         */
+        if ($request->get('min_price')) {
+            $query->andWhere(['>=', 'price', $request->get('min_price')]);
+        }
+
+        if ($request->get('max_price')) {
+            $query->andWhere(['<=', 'price', $request->get('max_price')]);
+        }
+
+        /**
+         * BedroomNo
+         */
+        if ($request->get('min_bedroom_no')) {
+            $query->andWhere(['>=', 'bedroomNo', $request->get('min_bedroom_no')]);
+        }
+
+        if ($request->get('max_bedroom_no')) {
+            $query->andWhere(['<=', 'bedroomNo', $request->get('max_bedroom_no')]);
+        }
+
+        /**
+         * Distance calc
+         */
+        // todo
+
         return [
-            'results' => Flat::find()->select([
-                'id',
-                'longitude',
-                'latitude',
-                'bedroomNo',
-                'price'
-            ])
-            ->asArray()
-            ->all(),
+            'results' => $query
+                ->asArray()
+                ->all(),
         ];
     }
 
@@ -181,85 +203,5 @@ class ApiController extends Controller
             'success' => $piif->save(),
             'error' => $piif->getErrors(),
         ];
-    }
-
-    private function getDummyFlatData()
-    {
-        return  [
-            [
-                'id' => 1,
-                'longitude' => '50.0000',
-                'latitude' => '55.0000',
-                'bedroomNo' => 3,
-                'price' => 1000,
-            ],
-            [
-                'id' => 2,
-                'longitude' => '40.0000',
-                'latitude' => '45.0000',
-                'bedroomNo' => 1,
-                'price' => 700,
-            ],
-            [
-                'id' => 3,
-                'longitude' => '90.0000',
-                'latitude' => '39.0000',
-                'bedroomNo' => 6,
-                'price' => 5000,
-            ],
-        ];
-    }
-
-    private function getDummyPersonInterestedInData($flatId)
-    {
-        $data = [
-            1 => [
-                [
-                    'name' => 'TestName 1',
-                    'picture' => 'itssomething.jpg',
-                    'url' => 'http://facebook.com',
-                ],
-                [
-                    'name' => 'TestName XY',
-                    'picture' => 'itssomething.jpg',
-                    'url' => 'http://facebook.com',
-                ],
-                [
-                    'name' => 'TestName 657',
-                    'picture' => 'itssomething.jpg',
-                    'url' => 'http://facebook.com',
-                ],
-            ],
-            2 => [
-                [
-                    'name' => 'TestName 69',
-                    'picture' => 'itssomething.jpg',
-                    'url' => 'http://facebook.com',
-                ],
-                [
-                    'name' => 'TestName 1',
-                    'picture' => 'itssomething.jpg',
-                    'url' => 'http://facebook.com',
-                ],
-            ],
-            3 => [
-                [
-                    'name' => 'TestName 404',
-                    'picture' => 'itssomething.jpg',
-                    'url' => 'http://facebook.com',
-                ],
-                [
-                    'name' => 'TestName XY',
-                    'picture' => 'itssomething.jpg',
-                    'url' => 'http://facebook.com',
-                ],
-            ],
-        ];
-
-        if (isset($data[$flatId])) {
-            return $data[$flatId];
-        }
-
-        return null;
     }
 }
