@@ -200,7 +200,7 @@ class ApiController extends Controller
             ];
         } else if($piif) {
             if ($delete) {
-                $piif->deleted_at = timestamp();
+                $piif->deleted_at = time();
                 return [
                     'success' => $piif->save(),
                     'error' => $piif->getErrors(),
