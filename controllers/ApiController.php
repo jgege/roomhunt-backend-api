@@ -167,7 +167,7 @@ class ApiController extends Controller
         ];
     }
 
-    public function actionAddInterest()
+    public function actionAddInterest($delete = false)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $request = Yii::$app->request;
@@ -191,6 +191,13 @@ class ApiController extends Controller
                 'error' => null,
             ];
         } else if($piif) {
+            if ($delete) {
+                $piif->deleted_at = timestamp();
+                return [
+                    'success' => $piif->save(),
+                    'error' => $piif->getErrors(),
+                ];
+            }
             return [
                 'success' => false,
                 'error' => 'Exists already.',
