@@ -190,6 +190,7 @@ class ApiController extends Controller
 
         $piif = PersonInterestedInFlat::find()
             ->where(['flat_id' => $flat_id, 'person_id' => $person_id])
+            ->andWhere(['deleted_at' => null])
             ->one();
 
         // Delete connection
