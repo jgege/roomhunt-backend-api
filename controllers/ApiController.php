@@ -57,9 +57,9 @@ class ApiController extends Controller
 
         $flat = new Flat();
         $flat->bedroomNo = $request->post('bedroomNo');
-        $flat->longitude = $request->post('bedroomNo');
-        $flat->latitude = $request->post('bedroomNo');
-        $flat->price = $request->post('bedroomNo');
+        $flat->longitude = $request->post('longitude');
+        $flat->latitude = $request->post('latitude');
+        $flat->price = $request->post('price');
         if ($flat->validate()) {
             $flat->save();
             return [

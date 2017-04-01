@@ -31,20 +31,20 @@ class m170401_154216_insert_dummy_data extends Migration
 
         $flatData = [
             [
-                'longitude' => '50.0000',
-                'latitude' => '55.0000',
+                'latitude' => '51.520551',
+                'longitude' => '-0.087564',
                 'bedroomNo' => 1,
                 'price' => 1000,
             ],
             [
-                'longitude' => '50.0000',
-                'latitude' => '56.0000',
+                'latitude' => '51.521212',
+                'longitude' => '-0.085697',
                 'bedroomNo' => 3,
                 'price' => 3000,
             ],
             [
-                'longitude' => '50.0000',
-                'latitude' => '57.0000',
+                'latitude' => '51.519873',
+                'longitude' => '-0.087096',
                 'bedroomNo' => 5,
                 'price' => 3500,
             ],
