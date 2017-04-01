@@ -139,7 +139,7 @@ class ApiController extends Controller
         ];
     }
 
-    public function actionPersonInterestedInList($flat_id)
+    public function actionPersonInterestedInList($flat_id, $person_id = null)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
@@ -147,6 +147,13 @@ class ApiController extends Controller
 
         if ($flat == null) {
             throw new \yii\web\NotFoundHttpException;
+        }
+
+        if ($person_id) {
+            $isInterested = PersonInterestedInFlat::find()
+                ->where(['person_id' => $person_id])
+                ->andWhere(['deleted_at' => null])
+                ->exists();
         }
 
         $personList = [];
@@ -163,6 +170,7 @@ class ApiController extends Controller
                 'personList' => $personList,
                 'price' => $flat['price'],
                 'bedroomNo' => $flat['bedroomNo'],
+                'interested' => ($person_id)? $isInterested : null,
             ],
         ];
     }
