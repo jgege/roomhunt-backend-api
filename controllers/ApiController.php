@@ -158,7 +158,7 @@ class ApiController extends Controller
 
         $personList = [];
         foreach ($flat->persons as $person) {
-            if ($person->deleted_at == null) {
+            if ($person->personInterestedInFlats->deleted_at == null) {
                 $personList[] = [
                     'name' => $person->name,
                     'picture' => $person->picture,
