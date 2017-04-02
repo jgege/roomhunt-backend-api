@@ -7,6 +7,7 @@ use yii\filters\VerbFilter;
 use Yii;
 use yii\web\Response;
 use app\models\PersonInterestedInFlat;
+use yii\helpers\Url;
 
 class ApiController extends Controller
 {
@@ -162,10 +163,10 @@ class ApiController extends Controller
                 ->where(['person_id' => $person->id, 'flat_id' => $flat_id])
                 ->andWhere(['deleted_at' => null])
                 ->exists();
-            if ($isCurrentUserInterested && ($person_id == null || $person_id != $person->id)) {
+            if ($isCurrentUserInterested) {
                 $personList[] = [
                     'name' => $person->name,
-                    'picture' => $person->picture,
+                    'picture' => Url::to(['images/' . $person->picture], true),
                     'url' => $person->url,
                 ];
             }
